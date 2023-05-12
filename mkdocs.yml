@@ -1,16 +1,18 @@
 # Project information
-site_name: Toxic Comment Classifier
+site_name: NLP Project
 # defeine TOC or order of website-
 nav:
   - Home: index.md
+  #- Data-prep-stage: data_prep.md
+  #- Featurization: featurization.md
 
 site_author: Shivansh Kaushal
 site_description: >-
   DESCRIPTION
 
 # Repository
-repo_name: shivanshka/Multilingual-Toxic-Comment-Classifier
-repo_url: https://github.com/shivanshka/Multilingual-Toxic-Comment-Classifier.git
+repo_name: shivanshka/NLP-DVC-Project
+repo_url: https://github.com/shivanshka/NLP-DVC-Project.git
 
 # Configuration
 theme:
