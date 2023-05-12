@@ -3,7 +3,7 @@ site_name: Toxic Comment Classifier
 # defeine TOC or order of website-
 nav:
   - Home: index.md
-  #- Data-prep-stage: data_prep.md
+  - EDA: eda.md
   #- Featurization: featurization.md
 
 site_author: Shivansh Kaushal
