@@ -6,9 +6,14 @@ single = SinglePrediction()
 batch = BatchPrediction()
 
 def single_predict(text):
-    st.success(f'{text} :thumbsup:')
-    preds = single.predict(text)
-    #st.plotly_chart(preds, theme=None, use_container_width=True)
+    preds, fig = single.predict(text)
+
+    if preds < 0.5:
+        st.success(f'Non Toxic Comment!!! :thumbsup:')
+        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+    else:
+        st.error(f'Toxic Comment!!! :thumbsup:')
+        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
 def batch_predict(data):
     if batch.data_validation(data):
