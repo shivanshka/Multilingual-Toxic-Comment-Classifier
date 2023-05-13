@@ -4,7 +4,7 @@ site_name: Toxic Comment Classifier
 nav:
   - Home: index.md
   - EDA: eda.md
-  #- Featurization: featurization.md
+  - Experiments: experiments.md
 
 site_author: Shivansh Kaushal
 site_description: >-
