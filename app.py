@@ -12,7 +12,7 @@ def single_predict(text):
         st.success(f'Non Toxic Comment!!! :thumbsup:')
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
     else:
-        st.error(f'Toxic Comment!!! :thumbsup:')
+        st.error(f'Toxic Comment!!! :thumbsdown:')
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
 def batch_predict(data):
