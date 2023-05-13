@@ -15,7 +15,7 @@ class PredictionServices:
         self.model = model
         self.tokenizer = tokenizer
 
-    def tokenizer(self, text:str):
+    def tokenizer_fn(self, text:str):
         tokens = self.tokenizer(text, 
                                 max_length=MAX_LEN, 
                                 truncation=True, 
@@ -23,7 +23,8 @@ class PredictionServices:
                                 add_special_tokens=True,
                                 return_tensors="tf",
                                 return_token_type_ids = False)
-        return dict(tokens)
+        inputs = dict(tokens)
+        return inputs
     
     def plot(self, pred):
         fig = px.bar(x=[round(pred), round(1-pred)], 
@@ -49,7 +50,7 @@ class PredictionServices:
             df = pd.read_csv(data)
             df.dropna(inplace=True)
             df = df.comment_text.apply(lambda x: re.sub('\n',' ',x).strip())
-            input = self.tokenizer(df.comment_text.values.tolist())
+            input = self.tokenizer_fn(df.comment_text.values.tolist())
             preds = self.model.predict(input)
             df['probabilities'] = preds
             df['toxic'] = np.where(df['probabilities']>0.5, 1, 0)
@@ -60,7 +61,7 @@ class PredictionServices:
     def single_predict(self, text:str):
         try:
             text = re.sub('\n',' ',text).strip()
-            input = self.tokenizer(text)
+            input = self.tokenizer_fn(text)
             pred = self.model.predict(input)[0][0]
             return pred
         except Exception as e:

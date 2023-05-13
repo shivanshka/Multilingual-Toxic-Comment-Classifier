@@ -5,12 +5,17 @@ model = ModelLoader()
 prediction = PredictionServices(model.Model, model.Tokenizer)
 
 def single_predict(text):
+    print(text)
     preds = prediction.single_predict(text)
-    return {"toxic":preds,"non-toxic":(1-preds)}
+    toxic_pred = float(preds)
+    non_toxic_pred = float(1-toxic_pred)
+    rslt = {"Toxic":toxic_pred,"Non Toxic":non_toxic_pred}
+    return rslt
 
-app = gr.Interface(gr.Textbox(label="Enter Comment"), 
-                   inputs=single_predict, 
-                   outputs=gr.Label('probabilities'))
+app = gr.Interface(inputs=gr.Textbox(label="Enter Comment"), 
+                   fn=single_predict, 
+                   outputs=[gr.Label('Probabilities')],
+                   title="Toxic Comment Classifier")
 
 app.launch()
 
