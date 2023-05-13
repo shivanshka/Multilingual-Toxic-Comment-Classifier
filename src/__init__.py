@@ -1,3 +1,2 @@
-
-from src.batch_predict import *
-from src.single_predict import *
+from predict import *
+from model_loader import *

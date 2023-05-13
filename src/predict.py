@@ -7,12 +7,13 @@ from transformers import AutoTokenizer
 import os
 from src.constants import *
 import re
+import streamlit as st
 
 
-class SinglePrediction:
-    def __init__(self):
-        self.model = tf.keras.models.load_model(MODEL_PATH)
-        self.tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH)
+class PredictionServices:
+    def __init__(self, model, tokenizer):
+        self.model = model
+        self.tokenizer = tokenizer
 
     def tokenizer(self, text:str):
         tokens = self.tokenizer(text, 
@@ -33,14 +34,34 @@ class SinglePrediction:
                      title="Probabilities(%)")
         fig.update_traces(width=0.3,textfont_size=15, textangle=0, textposition="outside")
         fig.update_layout(yaxis_title=None,xaxis_title=None)
-        return fig
+        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+    
+    def data_validation(data):
+        df = pd.read_csv(data)
+        status=True
+        for column in df.columns:
+            if column not in ['id', 'comment_text']:
+                status=False
+        return status
+                
+    def batch_predict(self, data):
+        try:
+            df = pd.read_csv(data)
+            df.dropna(inplace=True)
+            df = df.comment_text.apply(lambda x: re.sub('\n',' ',x).strip())
+            input = self.tokenizer(df.comment_text.values.tolist())
+            preds = self.model.predict(input)
+            df['probabilities'] = preds
+            df['toxic'] = np.where(df['probabilities']>0.5, 1, 0)
+            return df
+        except Exception as e:
+            print(e)
 
-    def predict(self, text:str):
+    def single_predict(self, text:str):
         try:
             text = re.sub('\n',' ',text).strip()
             input = self.tokenizer(text)
             pred = self.model.predict(input)[0][0]
-            fig = self.plot(pred)
-            return pred, fig
+            return pred
         except Exception as e:
             print(e)
