@@ -3,7 +3,7 @@ title: Toxic Comment Classifier
 emoji: 🌍
 colorFrom: blue
 colorTo: yellow
-sdk: streamlit
+sdk: gradio
 app_file: app.py
 pinned: false
 license: apache-2.0
