@@ -1,2 +1,2 @@
-from predict import *
-from model_loader import *
+from src.predict import *
+from src.model_loader import *
